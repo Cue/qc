@@ -1,6 +1,6 @@
 """QuickCheck."""
 
-from qc.state import arbfun
+from qc.state import arbfun, reset
 from qc.arbitrary import name, nameUtf8, fromList
 import arbitrary as _arb
 import util as _util
@@ -8,6 +8,17 @@ import util as _util
 import os, sys
 import itertools
 import random
+
+
+def property(fn):
+  """QuickCheck property decorator. Wrap a function with this to turn it into a
+  QuickCheck test."""
+  def test_property(*args, **kwargs):
+    reset()
+    for _ in xrange(100):
+      fn(*args, **kwargs)
+  test_property.__name__ = fn.__name__
+  return test_property
 
 
 ################################################################################
@@ -72,4 +83,4 @@ def str(length=None, maxlen=None):
 def unicode(length=None, maxlen=None):
   """An arbitrary string. UTF-8 encoded."""
   while True:
-    yield _util.utf8(_.str(length, maxlen))
+    yield _util.fromUtf8(_str(length, maxlen))

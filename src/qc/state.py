@@ -30,3 +30,8 @@ def arbfun(fn):
   TYPES[fn.__name__] = fn
   return functools.partial(getGenerator, fn.__name__)
 
+
+def reset():
+  """Reset the state."""
+  global GENERATORS
+  GENERATORS = {}
