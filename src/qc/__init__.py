@@ -59,10 +59,10 @@ def _str(length, maxlen):
     return randstr(length)
   elif maxlen is not None:
     s = _arb.longstr()
-    if s < maxlen:
+    if len(s) < maxlen:
       return s
     s = _arb.shortstr()
-    if s < maxlen:
+    if len(s) < maxlen:
       return s
     return randstr(maxlen=maxlen)
   else:
