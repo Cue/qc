@@ -16,9 +16,8 @@ setup(
   author_email = 'peter@greplin.com',
   url = 'https://github.com/Greplin/qc',
   package_dir = {'':'src'},
-  packages = [
-    'qc'
-  ],
+  packages = ['qc'],
+  namespace_packages = ['qc'],
   zip_safe = True,
   test_suite = 'nose.collector',
   include_package_data = True,
