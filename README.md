@@ -15,7 +15,7 @@ class TestCompression(unittest.TestCase):
     @qc.property
     def test_compress_decompress(self):
         """Test that compressing and decompressing returns the original data."""
-        data = qc.string()                  # An arbitrary string. Values are randomized.
+        data = qc.str()                  # An arbitrary string. Values are randomized.
         self.assertEquals(data, decompress(compress(data)))
 ```
 
@@ -46,12 +46,14 @@ building blocks to generate your own. For example:
 
 ```python
 class Point(object):
-    def __init(self, x, y):
-        self.x, self.y = x, y
+    def __init__(self, x, y):
+        self.x, self.y = float(x), float(y)
 
 def point():
     """Get an arbitrary point."""
-    return Point(qc.int(), qc.int())
+    x = qc.int(-20, 20)
+    y = qc.int(-34, 50)
+    return Point(x, y)
 ```
 
 You can then use this to generate arbitrary point values in properties. Here's a
@@ -59,9 +61,9 @@ nose-style test:
 
 ```python
 @qc.property
-def test_triangle_inequality(self):
+def test_triangle_inequality():
     pt = point()
-    assert pt.x + pt.y >= math.sqrt(pt.x**2 + pt.y**2)
+    assert abs(pt.x) + abs(pt.y) >= math.sqrt(pt.x**2 + pt.y**2), (pt.x, pt.y)
 ```
 
 When you run this, something magical happens: QuickCheck will try to generate tricky
