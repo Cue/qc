@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """Arbitrary value generators are infinite iterators."""
 
 import os, sys
@@ -176,3 +178,80 @@ def fromList(items):
   assert items, "List of items %r must not be empty." % items
   while True:
     return random.choice(items)
+
+
+################################################################################
+## STRINGS: These are important, so let's put some effort into perversity.
+################################################################################
+
+# This pleases me considerably more than lorem ipsum.
+AENEID_PRELUDE = """
+Arms, and the man I sing, who, forc'd by fate,
+And haughty Juno's unrelenting hate,
+Expell'd and exil'd, left the Trojan shore.
+Long labors, both by sea and land, he bore,
+And in the doubtful war, before he won
+The Latian realm, and built the destin'd town;
+His banish'd gods restor'd to rites divine,
+And settled sure succession in his line,
+From whence the race of Alban fathers come,
+And the long glories of majestic Rome.
+
+O Muse! the causes and the crimes relate;
+What goddess was provok'd, and whence her hate;
+For what offense the Queen of Heav'n began
+To persecute so brave, so just a man;
+Involv'd his anxious life in endless cares,
+Expos'd to wants, and hurried into wars!
+Can heav'nly minds such high resentment show,
+Or exercise their spite in human woe?"""
+
+# A thoroughly out-of-copyright poem by Fujiwara no Teika
+JAPANESE_POEM = u"こぬ人を\nまつほの浦の\n夕なぎに\n焼くやもしほの\n身もこがれつつ"
+
+# Neitzsche telling people that he's SO VERY SERIOUS. In German.
+NEITZSCHE_BLUSTER = u"""In Voraussicht, dass ich über Kurzem mit der schwersten Forderung
+an die Menschheit herantreten muss, die je an sie gestellt wurde,
+scheint es mir unerlässlich, zu sagen, wer ich bin. Im Grunde dürfte
+man's wissen: denn ich habe mich nicht "unbezeugt gelassen". Das
+Missverhältniss aber zwischen der Grösse meiner Aufgabe und der
+Kleinheit meiner Zeitgenossen ist darin zum Ausdruck gekommen, dass
+man mich weder gehört, noch auch nur gesehn hat. Ich lebe auf meinen
+eignen Credit hin, es ist vielleicht bloss ein Vorurtheil, dass ich
+lebe?... Ich brauche nur irgend einen "Gebildeten" zu sprechen, der im
+Sommer ins Oberengadin kommt, um mich zu überzeugen, dass ich nicht
+lebe... Unter diesen Umständen giebt es eine Pflicht, gegen die
+im Grunde meine Gewohnheit, noch mehr der Stolz meiner Instinkte
+revoltirt, nämlich zu sagen: Hört mich! denn ich bin der und der.
+Verwechselt mich vor Allem nicht!"""
+
+# Mostly unattributed quotes. Google will provide the attribution. pylint: disable=C0301
+QUOTES = [
+  "I don't want to achieve immortality through my work. I want to achieve it through not dying.",
+  "Copper, 40g; Zinc, 25g; Nickel, 15g; Hiding Embarrassment, 5g. Spite, 97kg.",
+  "In a hole in the ground there lived a hobbit.",
+  u"I just bought a 2-bedroom house, but it's up to me, isn't it, how many bedrooms there are? Fuck you, real estate lady! This bedroom has a oven in it! This bedroom’s got a lot of people sitting around watching TV. This bedroom is A.K.A. a hallway.",
+  "Hello, world!"
+  "As an adolescent I aspired to lasting fame, I craved factual certainty, and I thirsted for a meaningful vision of human life - so I became a scientist. This is like becoming an archbishop so you can meet girls.",
+  "As we know, There are known knowns. There are things we know we know. We also know there are known unknowns. That is to say, we know there are some things we do not know. But there are also unknown unknowns, the ones we don't know we don't know.",
+]
+
+
+# A bunch of words or word-like strings, for when you need words.
+WORDS = sorted(set(AENEID_PRELUDE.split() + JAPANESE_POEM.split() + NEITZSCHE_BLUSTER.split()))
+
+
+def shortstr():
+  """Return a short string."""
+  return ' '.join([random.choice(WORDS) for _ in xrange(random.randint(0, 10))])
+
+
+def longstr():
+  """Return a long string."""
+  r = random.random()
+  if r < 0.2:
+    return random.choice((AENEID_PRELUDE, JAPANESE_POEM, NEITZSCHE_BLUSTER))
+  elif r < 0.9:
+    return random.choice(QUOTES)
+  else:
+    return shortstr() + AENEID_PRELUDE*20 + '\0' + NEITZSCHE_BLUSTER*10 + shortstr()
