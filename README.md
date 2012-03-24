@@ -27,7 +27,7 @@ the decorated function several times, and each time the values returned by funct
 `qc.string()` are different. In other words, QuickCheck is compatible with pretty much
 every unit test framework out there; it's not particularly demanding.
 
-Functions like `qc.string()`, `qc.int()`, and so on, generate arbitrary values of a
+Functions like `qc.str()`, `qc.int()`, and so on, generate arbitrary values of a
 certain type. In the example above, we're asserting that the property holds true for all
 strings. When you run the tests, QuickCheck will generate randomized strings for testing.
 
@@ -72,3 +72,43 @@ points like (0, 0), (1, 1), (0, 1), (385904, 0), as well as totally random ones 
 (584, -35809648). In other words, rather than just drawing x and y values from a stream
 of random numbers with some tricky values in it, QuickCheck will actually try to generate
 tricky combinations of x and y coordinates.
+
+Functions for getting arbitrary data
+-------------
+
+* `int(low, high)` gives ints, between the optional bounds `low` and `high`.
+
+* `long(low, high)` gives longs, between the optional bounds `low` and `high`.
+
+* `float(low, high)` gives floats, between the optional bounds `low` and `high`. No
+  Infinities or NaN values.
+
+* `str(length=None, maxlen=None)` gives strings, of type `str`. The encoding is UTF-8. If `length` is
+  given, the strings will be exactly that long. If `maxlen` is given, the string length
+  will be at most `maxlen` characters.
+
+* `unicode(length=None, maxlen=None)` gives unicode strings, of type `unicode`. If
+  `length` is given, the strings will be exactly that long. If `maxlen` is given, the
+  string length will be at most `maxlen` characters.
+
+* `name()` gives names, in Unicode. These range from the prosaic, like "John Smith", to
+  the exotic -- names containing non-breaking spaces, or email addresses, or Unicode
+  characters outside the Basic Multilingual Plane. This is, if anything, less perverse
+  than the names you will see in a sufficiently large set of Internet data.
+
+* `nameUtf8()` is the same as `name().encode('utf8')`.
+
+* `fromList(items)` returns random items from a list. This is mostly useful for creating
+  your own arbitrary data generator functions.
+
+* `randstr(length=None, maxlen=sys.maxint)` gives strings of random bytes. If `length` is
+  given, the strings will be exactly that long. If `maxlen` is given, the string length
+  will be at most `maxlen` bytes.
+
+The strings produced by `str` and `unicode` are randomized, but some effort has been put
+into making them sufficiently perverse as to reveal bugs in a whole lot of string
+processing code. The name list is loosely based on horrible memories of seeing name
+processing code crash on real-world data.
+
+The name and string example data in `qc.arbitrary` may be interesting as a source of more
+deteministic test case data. Feel free to "borrow" any of it.
