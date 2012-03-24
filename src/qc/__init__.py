@@ -1,15 +1,17 @@
 """QuickCheck."""
 
 from qc.state import arbfun
-from qc.arbitrary import name, nameUtf8
-from qc import arbitrary as _arb
+from qc.arbitrary import name, nameUtf8, fromList
+import arbitrary as _arb
+import util as _util
 
 import os, sys
 import itertools
+import random
 
 
 ################################################################################
-## WRAPPER FUNCTIONS: Wrap useful classes with clashy names.
+## ARBITRARY FUNCTIONS: Names may clash with builtin names.
 ################################################################################
 
 
@@ -38,3 +40,36 @@ def randstr(length=None, maxlen=sys.maxint):
     return (os.urandom(length) for _ in itertools.repeat(0))
   else:
     return _arb.RandomString(maxlen)
+
+
+def _str(length, maxlen):
+  """Internal string getter."""
+  if length is not None:
+    return randstr(length)
+  elif maxlen is not None:
+    s = _arb.longstr()
+    if s < maxlen:
+      return s
+    s = _arb.shortstr()
+    if s < maxlen:
+      return s
+    return randstr(maxlen=maxlen)
+  else:
+    if random.random() < 0.5:
+      return _arb.shortstr()
+    else:
+      return _arb.longstr()
+
+
+@arbfun
+def str(length=None, maxlen=None):
+  """An arbitrary string. UTF-8 encoded."""
+  while True:
+    yield _util.utf8(_str(length, maxlen))
+
+
+@arbfun
+def unicode(length=None, maxlen=None):
+  """An arbitrary string. UTF-8 encoded."""
+  while True:
+    yield _util.utf8(_.str(length, maxlen))
