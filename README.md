@@ -16,7 +16,7 @@ class TestCompression(unittest.TestCase):
     def test_compress_decompress(self):
         """Test that compressing and decompressing returns the original data."""
         data = qc.str()                  # An arbitrary string. Values are randomized.
-        self.assertEquals(data, decompress(compress(data)))
+        self.assertEqual(data, decompress(compress(data)), repr(data))
 ```
 
 That's an ordinary test with Python's built-in unittest framework (which is why there's
