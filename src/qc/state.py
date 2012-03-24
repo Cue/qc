@@ -13,7 +13,7 @@ TYPES = {}
 
 
 def getGenerator(t, *args, **kwargs):
-  """Get a generator of type t."""
+  """Get the next thing in the t(*args, **kwargs) stream."""
   hasher = hashlib.sha1(); map(hasher.update, traceback.format_stack())
   spec = (t, args, tuple(sorted(kwargs.items())), hasher.digest())
   if spec not in GENERATORS:
@@ -22,7 +22,7 @@ def getGenerator(t, *args, **kwargs):
     except KeyError:
       raise NameError('Unknown generator type %r' % t)
     GENERATORS[spec] = genfun(*args, **kwargs)
-  return GENERATORS[spec]
+  return GENERATORS[spec].next()
 
 
 def arbfun(name):
