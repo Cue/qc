@@ -121,8 +121,8 @@ class Float(WithTrickySet):
 class RandomString(WithTrickySet):
   """An arbitrary string of random bytes."""
 
-  def __init__(self):
-    self.short, self.long = Int(0, 10), Int(0, 500)
+  def __init__(self, maxlen=sys.maxint):
+    self.short, self.long = Int(0, min(maxlen, 10)), Int(0, min(maxlen, 500))
     tricky = ['', '\0', '\xc2', '\0foo']
     WithTrickySet.__init__(self, tricky)
 
@@ -133,24 +133,6 @@ class RandomString(WithTrickySet):
       return os.urandom(self.short.next())
     else:
       return os.urandom(self.long.next())
-
-
-
-class StringFromList(object):
-  """Randomly choose strings from list."""
-
-  def __init__(self, strings):
-    assert strings, "List of strings %r must not be empty." % strings
-    self.strings = list(strings)
-
-
-  def __iter__(self):
-    return self
-
-
-  def next(self):
-    """Return a random string from the list."""
-    return random.choice(self.strings)
 
 
 ################################################################################
@@ -176,13 +158,21 @@ FULL_NAMES = (
 )
 
 
-@arbfun('name')
+@arbfun
 def name():
   """Return names in Unicode."""
   return itertools.cycle(map(unicode, FULL_NAMES))
 
 
-@arbfun('nameUtf8')
+@arbfun
 def nameUtf8():
   """Return names in UTF-8."""
   return itertools.cycle(name.encode('utf8') for name in FULL_NAMES)
+
+
+@arbfun
+def fromList(items):
+  """Randomly choose items from list."""
+  assert items, "List of items %r must not be empty." % items
+  while True:
+    return random.choice(items)

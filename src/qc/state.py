@@ -2,7 +2,6 @@
 
 import traceback
 import hashlib
-import threading
 import functools
 
 
@@ -25,11 +24,9 @@ def getGenerator(t, *args, **kwargs):
   return GENERATORS[spec].next()
 
 
-def arbfun(name):
-  """Decorator @arbfun(name) takes a function that returns an iterator, and returns a
-  function that gets that generator from the generator registry."""
-  def decorator(fn):
-    TYPES[name] = fn
-    return functools.partial(getGenerator, name)
-  return decorator
+def arbfun(fn):
+  """Decorator @arbfun) takes a function that returns an iterator, and returns a function
+  that gets that generator from the generator registry."""
+  TYPES[fn.__name__] = fn
+  return functools.partial(getGenerator, fn.__name__)
 
