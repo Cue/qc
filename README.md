@@ -108,7 +108,10 @@ Functions for getting arbitrary data
 The strings produced by `str` and `unicode` are randomized, but some effort has been put
 into making them sufficiently perverse as to reveal bugs in a whole lot of string
 processing code. The name list is loosely based on horrible memories of seeing name
-processing code crash on real-world data.
+processing code crash on real-world data, over and over and over again, as it became ever
+more clear that the world is mad, and we are truly doomed. (This feeling passes once you
+get enough test coverage and things finally stop crashing. There is hope!)
 
 The name and string example data in `qc.arbitrary` may be interesting as a source of more
-deteministic test case data. Feel free to "borrow" any of it.
+deteministic test case data. Feel free to borrow any of it. The internals are magic, but
+of the magical internal parts, the most interesting ones are in `qc.arbitrary` and `qc`.
