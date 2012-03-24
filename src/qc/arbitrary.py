@@ -154,7 +154,7 @@ class StringFromList(object):
 
 
 ################################################################################
-## DERIVED GENERATORS: This is a much easier way to do it, FYI.
+## DERIVED GENERATORS: The @arbfun decorator is like an angel of concision.
 ################################################################################
 
 # Some of these "names" are pretty messed up. Such is life in our flawed world.
@@ -170,9 +170,9 @@ FULL_NAMES = (
   "Robert'); DROP TABLE Students;--", "a b c 1 2 3 lol butts lol @ u!!1",
   u'\u2606\u2606 Tom Swift \u2606\u2606', u'\u2606\u2606\u2606\u2606',
   'Rupert "Ripper" Giles', 'Jesse Ramsbotham', 'e^(i*pi) = -1', 'HARRRR',
-  u'Robert \U00010308 Smith',      # Decoration from outside the basic multilingual plane
+  u'Robert \U00010308 Smith', # Decoration from outside the basic multilingual plane. O_O
   u'\U00010308 \U00010308 Sleipnir McTavish \U00010308 \U00010308', # Cool name!
-  'Bob Dole', 'bob dole', '  bob dole\t', 'Bob\tdole', 'Bob Dole <bdole@bob.co.nz> ',
+  'Bob Dole :-)', 'bob dole', '  bob dole\t', 'Bob\tdole', 'Bob Dole <bdole@bob.co.nz> ',
 )
 
 
